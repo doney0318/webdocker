@@ -138,8 +138,6 @@ notice2(){
     white "其他信息"
     white "已配置的端口：$port  数据库root密码：$rootpwd "
     green "=================================================="
-    white "开发者：小腾   Dcocker by 佰阅部落  "
-    white "项目地址： https://github.com/Qsnh/meedu"
 }
 
 notice3(){
@@ -155,18 +153,14 @@ notice3(){
     green "---------------------------"
     white "其他信息"
     white "已配置的端口：$port  数据库root密码：$rootpwd "
-    greenbg "一键脚本说明文档： https://baiyue.one/archives/479.html"
     green "=================================================="
-    white "开发者：小腾   Dcocker by 佰阅部落  "
-    white "项目地址： https://github.com/Qsnh/meedu"
-
 }
 # 开始安装meedu
 install_main(){
     blue "获取配置文件"
     mkdir -p /opt/meedu && cd /opt/meedu
     rm -f docker-compose.yml  
-    wget https://raw.githubusercontent.com/Baiyuetribe/meedu/master/docker-compose.yml      
+    wget https://raw.githubusercontent.com/doney0318/webdocker/master/docker-compose.yml      
     blue "配置文件获取成功"
     sleep 2s
     white "请仔细填写参数，部署完毕会反馈已填写信息"
@@ -262,24 +256,10 @@ remove_all(){
 #开始菜单
 start_menu(){
     clear
-	echo "
-
-
-  ██████╗  █████╗ ██╗██╗   ██╗██╗   ██╗███████╗    ██████╗ ███╗   ██╗███████╗
-  ██╔══██╗██╔══██╗██║╚██╗ ██╔╝██║   ██║██╔════╝   ██╔═══██╗████╗  ██║██╔════╝
-  ██████╔╝███████║██║ ╚████╔╝ ██║   ██║█████╗     ██║   ██║██╔██╗ ██║█████╗  
-  ██╔══██╗██╔══██║██║  ╚██╔╝  ██║   ██║██╔══╝     ██║   ██║██║╚██╗██║██╔══╝  
-  ██████╔╝██║  ██║██║   ██║   ╚██████╔╝███████╗██╗╚██████╔╝██║ ╚████║███████╗
-  ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝ ╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝                                                            
-    "
+	echo ""
     greenbg "==============================================================="
-    greenbg "简介：MeEdu一键安装脚本                                          "
+    greenbg "简介：网站一键安装脚本                                          "
     greenbg "系统：Centos7、Ubuntu等                                         "
-    greenbg "脚本作者：Azure  QQ群：635925514                                               "
-    greenbg "程序开发者：小腾 Github:Qsnh/meedu                               "
-    greenbg "网站： https://baiyue.one                                       "
-    greenbg "主题：专注分享优质web资源                                        "
-    greenbg "Youtube/B站： 佰阅部落                                          "
     greenbg "==============================================================="
     echo
     yellow "使用前提：脚本会自动安装docker，国外服务器搭建只需1min~2min"
