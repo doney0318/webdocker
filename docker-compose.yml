@@ -1,0 +1,53 @@
+version: '1'
+services:
+
+  # The Application
+  app:
+    image: "baiyuetribe/meedu:app版本号"
+    environment:
+      - "DB_PASSWORD=数据库密码"
+    networks:
+        - frontend
+        - backend
+    links:
+        - redis
+    depends_on:
+        - mysql
+  # The Web Server
+  web:
+    image: "baiyuetribe/meedu:web版本号"
+    working_dir: /var/www
+    ports:
+      - 访问端口:80
+    networks:
+        - frontend
+    links:
+        - redis            
+    depends_on:
+        - app
+  # The Database
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - /opt/meedu/mysql:/var/lib/mysql
+    environment:
+      - "TZ=Asia/Shanghai"
+      - "MYSQL_DATABASE=meedu"
+      - "MYSQL_ROOT_PASSWORD=数据库密码"
+    ports:
+        - "3306:3306"
+    networks:
+        - backend 
+  redis:
+    image: redis:4.0.9-alpine
+    networks:
+      - frontend
+      - backend  
+    restart: unless-stopped
+    ports:
+        - "6379:6379"        
+        
+networks:
+    frontend:
+    backend:  
+ 
