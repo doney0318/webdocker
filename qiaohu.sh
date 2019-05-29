@@ -85,9 +85,6 @@ notice(){
     white "以下内容必须一步步操作"
     greenbg "等待数据库完成初始化，等待约10s"
     sleep 12s
-    yellow "创建软链接"
-    docker-compose exec app php artisan storage:link
-    sleep 3s
     
     yum install -y python-setuptools
     greenbg "正在重启qiaohu"
