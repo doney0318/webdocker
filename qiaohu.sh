@@ -114,7 +114,7 @@ qiaohu_master(){
     rm -rf /opt/qiaohu && cd /opt
     git clone -b master https://git.china-qizhi.com/zhangjian/qiaohu.git
     cd /opt/qiaohu 
-    sed -i "7s/"8000:80/"$port:80/" docker-compose.yml
+    sed -i "s/"8000:80/"$port:80/"  docker-compose.yml
     sed -i "s/123456/$rootpwd/g"    protected/config/dbconfig.php
     greenbg "本地初始化完成"
     cd /opt/qiaohu
