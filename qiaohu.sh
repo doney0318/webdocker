@@ -85,10 +85,8 @@ notice(){
     white "以下内容必须一步步操作"
     greenbg "等待数据库完成初始化，等待约10s"
     sleep 12s
-    docker exec -it qizhimysql /bin/bash
-    sleep 3s
-    
-    
+    docker exec -it qizhimysql mysql < /tmp/qiaohu.sql
+    sleep 10s
     greenbg "正在重启qiaohu"
     restart_qiaohu
     sleep 10s
