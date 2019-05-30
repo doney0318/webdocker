@@ -85,8 +85,10 @@ notice(){
     white "以下内容必须一步步操作"
     greenbg "等待数据库完成初始化，等待约10s"
     sleep 12s
+    docker exec -it qizhimysql /bin/bash
+    sleep 3s
     
-    yum install -y python-setuptools
+    
     greenbg "正在重启qiaohu"
     restart_qiaohu
     sleep 10s
@@ -114,8 +116,9 @@ qiaohu_master(){
     rm -rf /opt/qiaohu && cd /opt
     git clone -b master https://git.china-qizhi.com/zhangjian/qiaohu.git
     cd /opt/qiaohu 
-    sed -i "s/"8000:80/"$port:80/"  docker-compose.yml
-    sed -i "s/123456/$rootpwd/g"    protected/config/dbconfig.php
+    sed -i "s/"8000:80/"$port:80/"  /opt/qiaohu/docker-compose.yml
+    sed -i "s/数据库密码/$rootpwd/g"  /opt/qiaohu/docker-compose.yml
+    sed -i "s/123456/$rootpwd/g"    /opt/qiaohu/protected/config/dbconfig.php
     greenbg "本地初始化完成"
     cd /opt/qiaohu
     redbg "开始启动服务，首次启动会拉取镜像，请耐心等待"
