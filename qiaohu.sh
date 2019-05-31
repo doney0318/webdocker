@@ -83,6 +83,8 @@ notice(){
     green "主程序已搭建完毕，让我们来完成最后几步，之后就可以访问了"
     green "=================================================="
     white "以下内容必须一步步操作"
+    sleep 2s
+    docker exec -it qizhimysql mysql -uroot -p$rootpwd < /tmp/qiaohu.sql
     greenbg "等待数据库完成初始化，等待约10s"
     sleep 12s
     greenbg "正在重启qiaohu"
@@ -101,6 +103,7 @@ install_main(){
     green "设置数据库ROOT密码"
     read -e -p "请输入ROOT密码(默认123456)：" rootpwd
     [[ -z "${rootpwd}" ]] && rootpwd="123456"  
+    docker network create qizhi-net
     qiaohu_master
     notice  
    
