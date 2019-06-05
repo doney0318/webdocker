@@ -8,3 +8,8 @@ bash <(curl -L -s https://raw.githubusercontent.com/doney0318/webdocker/master/d
 
 
 ## 功能介绍
+
+一键增加虚拟内存
+```
+wget https://raw.githubusercontent.com/doney0318/webdocker/master/swap.sh && bash swap.sh
+```
