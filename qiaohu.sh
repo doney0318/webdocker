@@ -84,6 +84,7 @@ notice(){
     green "=================================================="
     white "以下内容必须一步步操作"
     sleep 2s
+    docker exec -it qizhimysql mysql -uroot -p$rootpwd < /opt/qiaohu.sql
     greenbg "等待数据库完成初始化，等待约10s"
     sleep 12s
     greenbg "正在重启qiaohu"
