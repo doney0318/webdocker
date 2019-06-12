@@ -118,8 +118,10 @@ qiaohu_master(){
     sed -i "s/"8000:80/"$port:80/"  /opt/qiaohu/docker-compose.yml
     sed -i "s/数据库密码/$rootpwd/"  /opt/qiaohu/docker-compose.yml
     sed -i "s/数据库密码/$rootpwd/"  /opt/qiaohu/projects/DB.php
+    sed -i "s/数据库密码/$rootpwd/"  /opt/qiaohu/projects/DB2.php
     sed -i "s/数据库密码/$rootpwd/"    /opt/qiaohu/projects/Tiyan/protected/config/dbconfig.php
     sed -i "s/数据库密码/$rootpwd/"    /opt/qiaohu/projects/Api/protected/config/dbconfig.php
+    chmod -R 777 /opt/qiaohu/projects/_Core/runtime
     greenbg "本地初始化完成"
     cd /opt/qiaohu
     redbg "开始启动服务，首次启动会拉取镜像，请耐心等待"
