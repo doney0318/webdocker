@@ -91,78 +91,68 @@ notice2(){
 }
 
 notice3(){
-    greenbg "初始化管理员"
-    docker-compose exec app php artisan install administrator    #初始化管理员，安装提示输入管理员的账号和密码
     green "=================================================="
     green "搭建成功，现在您可以直接访问了"
     green "---------------------------"
     green " 首页地址： http://ip:$port"
-    green " 管理员后台地址：http://ip:$port/backend/login"
-    green " 主机数据绝对路径： /opt/meedu"
-    green " 源码编辑器 http://ip:899  编辑器内路径/var/www/meedu"
+    green " 主机数据绝对路径： /opt/nginx"
     green "---------------------------"
     white "其他信息"
     white "已配置的端口：$port  数据库root密码：$rootpwd "
+    white "phpMyAdmin: http://ip:8080"
+    white "phpRedisAdmin: http://ip:8081"
     green "=================================================="
 }
 # 开始安装
 install_main(){
     blue "获取配置文件"
-    mkdir -p /opt/meedu && cd /opt/meedu
-    rm -f docker-compose.yml  
-    wget https://raw.githubusercontent.com/doney0318/webdocker/master/docker-compose.yml      
+    mkdir -p /opt/nginx && cd /opt/nginx
+    yum install git -y
+    git clone https://github.com/doney0318/dnmp.git
+    mv dnmp/* .
+    rm -rf dnmp
     blue "配置文件获取成功"
     sleep 2s
     white "请仔细填写参数，部署完毕会反馈已填写信息"
     green "访问端口：如果想通过域名访问，请设置80端口，其余端口可随意设置"
-    read -e -p "请输入访问端口(默认端口2020)：" port
-    [[ -z "${port}" ]] && port="2020"
+    read -e -p "请输入访问端口(默认端口80)：" port
+    [[ -z "${port}" ]] && port="80"
     green "设置数据库ROOT密码"
-    read -e -p "请输入ROOT密码(默认baiyue.one)：" rootpwd
-    [[ -z "${rootpwd}" ]] && rootpwd="baiyue.one"  
+    read -e -p "请输入ROOT密码(默认123456)：" rootpwd
+    [[ -z "${rootpwd}" ]] && rootpwd="123456"  
     green "请选择安装版本"
-    yellow "1.[meedu1.0](稳定版-此版不支持源码编辑)"
-    yellow "2.[meedu20190412](开发版)"
-    yellow "3.[meedu-dev]（开发版，同步meedu官网最新git分支-支持源码编辑）"
+    yellow "1.[nginx1](一键环境安装)"
+    yellow "2.[nginx2](项目一)"
+    yellow "3.[nginx3](项目二)"
     echo
     read -e -p "请输入数字[1~3](默认1)：" vnum
     [[ -z "${vnum}" ]] && vnum="1" 
 	if [[ "${vnum}" == "1" ]]; then
-        greenbg "开始安装meedu1.0版本"
-        sed -i "s/数据库密码/$rootpwd/g" /opt/meedu/docker-compose.yml
-        sed -i "s/版本号/1.0/g" /opt/meedu/docker-compose.yml
-        sed -i "s/"访问端口/"$port/g" /opt/meedu/docker-compose.yml
+        greenbg "一键环境安装"
+	cp env.sample .env
+	cp docker-compose-sample.yml docker-compose.yml
+        sed -i "s/NGINX_HTTP_HOST_PORT=80/NGINX_HTTP_HOST_PORT=$port/g" /opt/nginx/.env
+	sed -i "s/MYSQL_ROOT_PASSWORD=123456/MYSQL_ROOT_PASSWORD=$rootpwd/g" /opt/nginx/.env
         greenbg "已完成配置部署"
         greenbg "程序将下载镜像，请耐心等待下载完成"
-        cd /opt/meedu
         greenbg "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
         docker-compose up -d
-        notice
-        notice2
-	elif [[ "${vnum}" == "2" ]]; then
-        greenbg "开始安装meedu20190412版本"
-        sed -i "s/数据库密码/$rootpwd/g" /opt/meedu/docker-compose.yml
-        sed -i "s/版本号/20190412/g" /opt/meedu/docker-compose.yml
-        sed -i "s/"访问端口/"$port/g" /opt/meedu/docker-compose.yml
-        greenbg "已完成配置部署"
-        greenbg "程序将下载镜像，请耐心等待下载完成"
-        cd /opt/meedu
-        greenbg "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
-        docker-compose up -d
-        notice
-        notice2
-    elif [[ "${vnum}" == "3" ]]; then
-        white "项目正在路上。。。"
-        meedu_master
-        notice
         notice3
+	elif [[ "${vnum}" == "2" ]]; then
+        white "开始安装项目一"
+	white "施工中"
+	echo  
+        elif [[ "${vnum}" == "3" ]]; then
+        white "开始安装项目二"
+	white "施工中"
+	echo
 	fi   
    
 }
 
-# 初始化meedu程序
-meedu_master(){
-    rm -rf /opt/meedu && cd /opt
+# 初始化程序
+nginx_master(){
+    
     git clone -b master https://github.com/Qsnh/meedu.git
     cd /opt/meedu 
     rm -f docker-compose.yml   
@@ -183,22 +173,22 @@ meedu_master(){
 
 
 # 停止服务
-stop_meedu(){
-    cd /opt/meedu
+stop_nginx(){
+    cd /opt/nginx
     docker-compose kill
 }
 
 # 重启服务
-restart_meedu(){
-    cd /opt/meedu
+restart_nginx(){
+    cd /opt/nginx
     docker-compose restart
 }
 
 # 卸载
 remove_all(){
-    cd /opt/meedu
+    cd /opt/nginx
     docker-compose down
-	echo -e "\033[32m已完成卸载\033[0m"
+    echo -e "\033[32m已完成卸载\033[0m"
 }
 
 
