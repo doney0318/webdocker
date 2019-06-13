@@ -84,17 +84,7 @@ notice(){
     green "=================================================="
     white "以下内容必须一步步操作"
     sleep 2s
-    systemctl restart docker
-    restart_qiaohu
-    docker exec -it qizhimysql /bin/bash << EOF
-mysql -uroot -p$rootpwd
-use sq_qiaohu;
-set names utf8;
-source /opt/qiaohu.sql
-exit
-exit
-EOF
-    #docker exec -it qizhimysql mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu/docker/database/qiaohu.sql
+    docker exec qizhimysql mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu/docker/database/qiaohu.sql
     greenbg "等待数据库完成初始化，等待约10s"
     sleep 12s
     greenbg "正在重启qiaohu"
