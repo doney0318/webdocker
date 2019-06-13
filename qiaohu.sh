@@ -87,7 +87,7 @@ notice(){
     greenbg "正在重启qiaohu"
     restart_qiaohu
     white "正在导入数据库操作"
-    docker exec qizhimysql mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu/docker/database/qiaohu.sql
+    docker-compose exec qizhimysql mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu/docker/database/qiaohu.sql
     greenbg "等待数据库完成初始化，等待约10s"
     sleep 5s
     greenbg "正在重启qiaohu"
