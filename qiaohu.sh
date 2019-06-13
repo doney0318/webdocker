@@ -87,9 +87,13 @@ notice(){
     greenbg "正在重启qiaohu"
     restart_qiaohu
     white "正在导入数据库操作"
-    docker-compose exec qizhimysql mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu/docker/database/qiaohu.sql
-    greenbg "等待数据库完成初始化，等待约10s"
-    sleep 5s
+    sleep 10s
+    docker-compose exec mysql bash <<EOF
+mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu.sql
+exit
+EOF
+    #docker exec qizhimysql mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu/docker/database/qiaohu.sql
+    greenbg "数据库导入完成"
     greenbg "正在重启qiaohu"
     restart_qiaohu
     sleep 5s
