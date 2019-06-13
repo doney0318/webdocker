@@ -87,7 +87,11 @@ notice(){
     systemctl restart docker
     restart_qiaohu
     docker exec -it qizhimysql /bin/bash << EOF
-mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu.sql
+mysql -uroot -p$rootpwd
+use sq_qiaohu;
+set names utf8;
+source /opt/qiaohu.sql
+exit
 exit
 EOF
     #docker exec -it qizhimysql mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu/docker/database/qiaohu.sql
