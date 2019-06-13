@@ -116,6 +116,7 @@ install_main(){
 # 初始化qiaohu程序
 qiaohu_master(){
     rm -rf /opt/qiaohu && cd /opt
+    yum install -y git
     git clone -b master https://git.china-qizhi.com/zhangjian/qiaohu.git
     cd /opt/qiaohu 
     sed -i "s/"8000:80/"$port:80/"  /opt/qiaohu/docker-compose.yml
