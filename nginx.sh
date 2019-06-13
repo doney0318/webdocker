@@ -5,7 +5,6 @@
 #
 #一键脚本
 #
-#
 # 设置字体颜色函数
 function blue(){
     echo -e "\033[34m\033[01m $1 \033[0m"
@@ -62,69 +61,20 @@ check_docker_compose() {
 		install_docker_compose
 	fi
 }
-
-
 # check docker
 
 
 # 以上步骤完成基础环境配置。
 echo "恭喜，您已完成基础环境安装，可执行安装程序。"
 
-restart_meedu(){
-    cd /opt/meedu
+restart_nginx(){
+    cd /opt/nginx
     docker-compose restart
 }
 
 
 
 # 输出结果
-notice(){
-    green "=================================================="
-    green "主程序已搭建完毕，让我们来完成最后几步，之后就可以访问了"
-    green "=================================================="
-    white "以下内容必须一步步操作"
-    greenbg "等待数据库完成初始化，等待约10s"
-    sleep 12s
-    yellow "创建软链接"
-    docker-compose exec app php artisan storage:link
-    sleep 3s
-    yellow "安装数据表"
-    docker-compose exec app php artisan migrate   
-    sleep 10s
-    yellow "初始化系统权限"
-    docker-compose exec app php artisan install role    
-    sleep 8s
-    yellow "初始化后台菜单"
-    docker-compose exec app php artisan install backend_menu   
-    sleep 6s
-    yellow "生成安装锁"
-    docker-compose exec app php artisan install:lock  
-    yellow "定时任务"
-    echo "* * * * * cd /opt/meedu && docker-compose exec app php artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/root
-    service crond reload 
-    yellow "开启队列监听器"
-    yum install -y python-setuptools
-    easy_install supervisor 
-cat > /etc/supervisor/conf.d/meedu.conf <<-EOF
-[program:meedu]
-process_name=%(program_name)s_%(process_num)02d
-command=cd /opt/meedu && docker-compose exec php artisan queue:work --sleep=3 --tries=3
-autostart=true
-autorestart=true
-user=root
-numprocs=4
-redirect_stderr=true
-stdout_logfile=opt/meedu/storage/logs/supervisor.log
-EOF
-    greenbg "队列监听配置完成。开始重启"
-    supervisorctl reread
-    supervisorctl update
-    supervisorctl start meedu:* 
-    greenbg "正在重启meedu"
-    restart_meedu
-    sleep 10s
-}
-
 notice2(){
     greenbg "初始化管理员"
     docker-compose exec app php artisan install administrator    #初始化管理员，安装提示输入管理员的账号和密码
@@ -155,7 +105,7 @@ notice3(){
     white "已配置的端口：$port  数据库root密码：$rootpwd "
     green "=================================================="
 }
-# 开始安装meedu
+# 开始安装
 install_main(){
     blue "获取配置文件"
     mkdir -p /opt/meedu && cd /opt/meedu
@@ -259,50 +209,40 @@ start_menu(){
 	echo ""
     greenbg "==============================================================="
     greenbg "简介：网站一键安装脚本                                          "
-    greenbg "系统：Centos7、Ubuntu等                                         "
+    greenbg "系统：Centos7                                         "
     greenbg "==============================================================="
     echo
-    yellow "使用前提：脚本会自动安装docker，国外服务器搭建只需1min~2min"
-    yellow "国内服务器下载镜像稍慢，请耐心等待"
-    blue "备注：非80端口可以用caddy反代，自动申请ssl证书，到期自动续期"
-    echo
     white "—————————————程序安装——————————————"
-    white "1.安装meedu"
+    white "1.安装nginx"
     white "—————————————杂项管理——————————————"
-    white "2.停止meedu"
-    white "3.重启meedu"
-    white "4.卸载meedu"
+    white "2.停止nginx"
+    white "3.重启nginx"
+    white "4.卸载nginx"
     white "5.清除本地缓存（仅限卸载后操作）"
-    white "—————————————域名访问——————————————" 
-    white "6.Caddy域名反代一键脚本(可以实现非80端口使用域名直接访问)"
     blue "0.退出脚本"
-    echo
     echo
     read -p "请输入数字:" num
     case "$num" in
-    1)
-	check_docker
+        1)
+    check_docker
     check_docker_compose
     install_main
 	;;
 	2)
-    stop_meedu
-    green "meedu程序已停止运行"
+    stop_nginx
+    green "程序已停止运行"
 	;;
 	3)
-    restart_meedu
-    green "meedu程序已重启完毕"
+    restart_nginx
+    green "程序已重启完毕"
 	;;
 	4)
     remove_all
 	;;
 	5)
-    rm -fr /opt/meedu
+    rm -fr /opt/nginx
     green "清除完毕"
 	;;    
-	6)
-    bash <(curl -L -s https://raw.githubusercontent.com/Baiyuetribe/codes/master/caddy/caddy.sh)
-	;;
 	0)
 	exit 1
 	;;
