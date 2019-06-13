@@ -87,6 +87,7 @@ notice(){
     greenbg "正在重启qiaohu"
     restart_qiaohu
     white "正在导入数据库操作"
+    sleep 10s
     docker-compose exec mysql bash <<EOF
 mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu.sql
 exit
@@ -160,7 +161,6 @@ remove_all(){
 #开始菜单
 start_menu(){
     clear
-	echo ""
     greenbg "==============================================================="
     greenbg "简介：网站一键安装脚本                                          "
     greenbg "系统：Centos7、Ubuntu等                                         "
