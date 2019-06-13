@@ -87,9 +87,9 @@ notice(){
     systemctl restart docker
     restart_qiaohu
     docker exec -it qizhimysql /bin/bash << EOF
-    mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu.sql
-    exit
-    EOF
+mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu.sql
+exit
+EOF
     #docker exec -it qizhimysql mysql -uroot -p$rootpwd sq_qiaohu < /opt/qiaohu/docker/database/qiaohu.sql
     greenbg "等待数据库完成初始化，等待约10s"
     sleep 12s
