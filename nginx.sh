@@ -124,7 +124,6 @@ install_main(){
     yellow "1.[nginx1](一键环境安装)"
     yellow "2.[nginx2](项目一)"
     yellow "3.[nginx3](项目二)"
-    echo
     read -e -p "请输入数字[1~3](默认1)：" vnum
     [[ -z "${vnum}" ]] && vnum="1" 
 	if [[ "${vnum}" == "1" ]]; then
@@ -141,18 +140,15 @@ install_main(){
 	elif [[ "${vnum}" == "2" ]]; then
         white "开始安装项目一"
 	white "施工中"
-	echo  
         elif [[ "${vnum}" == "3" ]]; then
         white "开始安装项目二"
 	white "施工中"
-	echo
 	fi   
    
 }
 
 # 初始化程序
 nginx_master(){
-    
     git clone -b master https://github.com/Qsnh/meedu.git
     cd /opt/meedu 
     rm -f docker-compose.yml   
