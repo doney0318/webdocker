@@ -131,6 +131,7 @@ config_nginx(){
 install_main(){ 
    if [[  -d "/opt/nginx" ]]; then
      white "配置文件已存在"
+     cd /opt/nginx
    else 
      white "配置文件不存在"
      blue "获取配置文件"
@@ -157,7 +158,6 @@ install_main(){
    fi
    green "程序将下载镜像，请耐心等待下载完成"
    green "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
-   cd /opt/nginx
    docker-compose up -d
    notice3
 }
