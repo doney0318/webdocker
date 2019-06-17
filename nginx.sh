@@ -119,13 +119,7 @@ install_main(){
     green "设置数据库ROOT密码"
     read -e -p "请输入ROOT密码(默认123456)：" rootpwd
     [[ -z "${rootpwd}" ]] && rootpwd="123456"  
-    green "请选择安装版本"
-    yellow "1.[nginx1](一键环境安装)"
-    yellow "2.[nginx2](项目一)"
-    yellow "3.[nginx3](项目二)"
-    read -e -p "请输入数字[1~3](默认1)：" vnum
-    [[ -z "${vnum}" ]] && vnum="1" 
-	if [[ "${vnum}" == "1" ]]; then
+    
         green "一键环境安装"
 	cp env.sample .env
 	cp docker-compose-sample.yml docker-compose.yml
@@ -136,33 +130,25 @@ install_main(){
         green "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
         docker-compose up -d
         notice3
-	elif [[ "${vnum}" == "2" ]]; then
-        white "开始安装项目一"
-	white "施工中"
-        elif [[ "${vnum}" == "3" ]]; then
-        white "开始安装项目二"
-	white "施工中"
-	fi   
+
    
 }
 
-# 初始化程序
+# 项目加载
 nginx_master(){
-    git clone -b master https://github.com/Qsnh/meedu.git
-    cd /opt/meedu 
-    rm -f docker-compose.yml   
-    git clone -b docker https://github.com/Baiyuetribe/meedu.git && mv meedu/* . && rm -rf meedu
-    sed -i "s/baiyue.one/$rootpwd/g" docker-compose.yml
-    sed -i "7s/"80:80/"$port:80/" docker-compose.yml
-    sed -i "s/127.0.0.1/mysql/g" .env.example
-    sed -i "s/DB_PASSWORD=123456/DB_PASSWORD=$rootpwd/g" .env.example
-    cp .env.example .env
-    chmod -R a+w+r storage
-    chmod -R a+w+r bootstrap/cache    
-    greenbg "本地初始化完成"
-    cd /opt/meedu
-    redbg "开始启动服务，首次启动会拉取镜像，请耐心等待"
-    docker-compose up -d    
+    green "请选择需要安装的项目"
+    yellow "1.[nginx2](项目一)"
+    yellow "2.[nginx3](项目二)"
+    read -e -p "请输入数字[1~2](默认1)：" vnum
+    [[ -z "${vnum}" ]] && vnum="1" 
+	if [[ "${vnum}" == "1" ]]; then
+        white "开始加载项目一"
+	white "施工中"
+        elif [[ "${vnum}" == "3" ]]; then
+        white "开始加载项目二"
+	white "施工中"
+	fi  
+    redbg "拉取镜像中，请耐心等待"
 }
 
 
@@ -202,7 +188,7 @@ start_menu(){
     white "—————————————程序安装——————————————"
     white "2.安装nginx"
     white "—————————————项目加载——————————————"
-    white "3.项目一"
+    white "3.项目加载"
     white "—————————————杂项管理——————————————"
     white "4.停止nginx"
     white "5.重启nginx"
@@ -222,6 +208,7 @@ start_menu(){
     install_main
 	;;
         3）
+    nginx_master
 	;;
 	4)
     stop_nginx
