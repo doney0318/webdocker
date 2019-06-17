@@ -77,13 +77,12 @@ restart_nginx(){
 # 输出结果
 notice2(){
     greenbg "初始化管理员"
-    docker-compose exec app php artisan install administrator    #初始化管理员，安装提示输入管理员的账号和密码
     green "=================================================="
     green "搭建成功，现在您可以直接访问了"
     green "---------------------------"
     green " 首页地址： http://ip:$port"
-    green " 后台地址：http://ip:$port/backend/login"
-    green " 网页数据位置： /opt/meedu/data"
+    green " 后台地址：http://ip:$port/"
+    green " 网页数据位置： /opt/nginx/www"
     green "---------------------------"
     white "其他信息"
     white "已配置的端口：$port  数据库root密码：$rootpwd "
