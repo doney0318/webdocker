@@ -129,6 +129,30 @@ config_nginx(){
 
 # 程序安装
 install_main(){ 
+   if [ ! -d "/opt/nginx/.env"]; then
+     white "配置文件不存在"
+     blue "获取配置文件"
+     mkdir -p /opt/nginx && cd /opt/nginx
+     yum install git -y
+     git clone https://github.com/doney0318/dnmp.git
+     mv dnmp/* .
+     rm -rf dnmp
+     blue "配置文件获取成功"
+     sleep 2s
+     white "请仔细填写参数，部署完毕会反馈已填写信息"
+     green "访问端口：如果想通过域名访问，请设置80端口，其余端口可随意设置"
+     read -e -p "请输入访问端口(默认端口80)：" port
+     [[ -z "${port}" ]] && port="80"
+     green "设置数据库ROOT密码"
+     read -e -p "请输入ROOT密码(默认123456)：" rootpwd
+     [[ -z "${rootpwd}" ]] && rootpwd="123456"
+     green "环境配置中"
+     cp env.sample .env
+     cp docker-compose-sample.yml docker-compose.yml
+     sed -i "s/NGINX_HTTP_HOST_PORT=80/NGINX_HTTP_HOST_PORT=$port/g" /opt/nginx/.env
+     sed -i "s/MYSQL_ROOT_PASSWORD=123456/MYSQL_ROOT_PASSWORD=$rootpwd/g" /opt/nginx/.env
+     green "已完成配置部署"
+   fi
    green "程序将下载镜像，请耐心等待下载完成"
    green "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
    docker-compose up -d
