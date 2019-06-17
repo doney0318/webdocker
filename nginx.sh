@@ -153,6 +153,8 @@ install_main(){
      sed -i "s/NGINX_HTTP_HOST_PORT=80/NGINX_HTTP_HOST_PORT=$port/g" /opt/nginx/.env
      sed -i "s/MYSQL_ROOT_PASSWORD=123456/MYSQL_ROOT_PASSWORD=$rootpwd/g" /opt/nginx/.env
      green "已完成配置部署"
+   else 
+     white "配置文件已存在"
    fi
    green "程序将下载镜像，请耐心等待下载完成"
    green "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
