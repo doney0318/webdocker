@@ -129,7 +129,8 @@ config_nginx(){
 
 # 程序安装
 install_main(){ 
-   if [ ! -d "/opt/nginx/.env"]; then
+   envpath = "/opt/nginx/.env"
+   if [ ! -d "${envpath}"]; then
      white "配置文件不存在"
      blue "获取配置文件"
      mkdir -p /opt/nginx && cd /opt/nginx
