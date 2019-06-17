@@ -202,7 +202,7 @@ remove_all(){
 #开始菜单
 start_menu(){
     clear
-	echo ""
+    echo ""
     greenbg "==============================================================="
     greenbg "简介：网站一键安装脚本                                          "
     greenbg "系统：Centos7                                         "
