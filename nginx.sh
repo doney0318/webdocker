@@ -129,8 +129,7 @@ config_nginx(){
 
 # 程序安装
 install_main(){ 
-   envpath = "/opt/nginx"
-   if [[  -d "${envpath}" ]]; then
+   if [[  -d "/opt/nginx" ]]; then
      white "配置文件已存在"
    else 
      white "配置文件不存在"
