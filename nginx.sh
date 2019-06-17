@@ -102,8 +102,8 @@ notice3(){
     white "phpRedisAdmin: http://ip:8081"
     green "=================================================="
 }
-# 开始安装
-install_main(){
+# 环境配置
+config_nginx(){
     blue "获取配置文件"
     mkdir -p /opt/nginx && cd /opt/nginx
     yum install git -y
@@ -118,20 +118,21 @@ install_main(){
     [[ -z "${port}" ]] && port="80"
     green "设置数据库ROOT密码"
     read -e -p "请输入ROOT密码(默认123456)：" rootpwd
-    [[ -z "${rootpwd}" ]] && rootpwd="123456"  
-    
-        green "一键环境安装"
-	cp env.sample .env
-	cp docker-compose-sample.yml docker-compose.yml
-        sed -i "s/NGINX_HTTP_HOST_PORT=80/NGINX_HTTP_HOST_PORT=$port/g" /opt/nginx/.env
-	sed -i "s/MYSQL_ROOT_PASSWORD=123456/MYSQL_ROOT_PASSWORD=$rootpwd/g" /opt/nginx/.env
-        green "已完成配置部署"
-        green "程序将下载镜像，请耐心等待下载完成"
-        green "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
-        docker-compose up -d
-        notice3
+    [[ -z "${rootpwd}" ]] && rootpwd="123456"
+    green "环境配置中"
+    cp env.sample .env
+    cp docker-compose-sample.yml docker-compose.yml
+    sed -i "s/NGINX_HTTP_HOST_PORT=80/NGINX_HTTP_HOST_PORT=$port/g" /opt/nginx/.env
+    sed -i "s/MYSQL_ROOT_PASSWORD=123456/MYSQL_ROOT_PASSWORD=$rootpwd/g" /opt/nginx/.env
+    green "已完成配置部署"
+}
 
-   
+# 程序安装
+install_main(){ 
+   green "程序将下载镜像，请耐心等待下载完成"
+   green "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
+   docker-compose up -d
+   notice3
 }
 
 # 项目加载
