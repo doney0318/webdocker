@@ -197,34 +197,44 @@ start_menu(){
     greenbg "系统：Centos7                                         "
     greenbg "==============================================================="
     echo
+    white "—————————————环境设置——————————————"
+    white "1.环境设置"
     white "—————————————程序安装——————————————"
-    white "1.安装nginx"
+    white "2.安装nginx"
+    white "—————————————项目加载——————————————"
+    white "3.项目一"
     white "—————————————杂项管理——————————————"
-    white "2.停止nginx"
-    white "3.重启nginx"
-    white "4.卸载nginx"
-    white "5.清除本地缓存（仅限卸载后操作）"
+    white "4.停止nginx"
+    white "5.重启nginx"
+    white "6.卸载nginx"
+    white "7.清除本地缓存（仅限卸载后操作）"
     blue "0.退出脚本"
     echo
     read -p "请输入数字:" num
     case "$num" in
-        1)
+    	1)
+    config_nginx
+    green "环境参数设置完毕"
+    	;;
+        2)
     check_docker
     check_docker_compose
     install_main
 	;;
-	2)
+        3）
+	;;
+	4)
     stop_nginx
     green "程序已停止运行"
 	;;
-	3)
+	5)
     restart_nginx
     green "程序已重启完毕"
 	;;
-	4)
+	6)
     remove_all
 	;;
-	5)
+	7)
     rm -fr /opt/nginx
     green "清除完毕"
 	;;    
