@@ -162,14 +162,14 @@ install_main(){
 # 项目加载
 nginx_master(){
     green "请选择需要安装的项目"
-    yellow "1.[nginx2](项目一)"
-    yellow "2.[nginx3](项目二)"
+    yellow "1.[nginx1](项目一)"
+    yellow "2.[nginx2](项目二)"
     read -e -p "请输入数字[1~2](默认1)：" vnum
     [[ -z "${vnum}" ]] && vnum="1" 
 	if [[ "${vnum}" == "1" ]]; then
         white "开始加载项目一"
 	white "施工中"
-        elif [[ "${vnum}" == "3" ]]; then
+        elif [[ "${vnum}" == "2" ]]; then
         white "开始加载项目二"
 	white "施工中"
 	fi  
@@ -232,7 +232,7 @@ start_menu(){
     check_docker_compose
     install_main
 	;;
-        3）
+        3)
     nginx_master
 	;;
 	4)
