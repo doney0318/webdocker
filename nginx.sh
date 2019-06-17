@@ -126,14 +126,14 @@ install_main(){
     read -e -p "请输入数字[1~3](默认1)：" vnum
     [[ -z "${vnum}" ]] && vnum="1" 
 	if [[ "${vnum}" == "1" ]]; then
-        greenbg "一键环境安装"
+        green "一键环境安装"
 	cp env.sample .env
 	cp docker-compose-sample.yml docker-compose.yml
         sed -i "s/NGINX_HTTP_HOST_PORT=80/NGINX_HTTP_HOST_PORT=$port/g" /opt/nginx/.env
 	sed -i "s/MYSQL_ROOT_PASSWORD=123456/MYSQL_ROOT_PASSWORD=$rootpwd/g" /opt/nginx/.env
-        greenbg "已完成配置部署"
-        greenbg "程序将下载镜像，请耐心等待下载完成"
-        greenbg "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
+        green "已完成配置部署"
+        green "程序将下载镜像，请耐心等待下载完成"
+        green "首次启动会拉取镜像，国内速度比较慢，请耐心等待完成"
         docker-compose up -d
         notice3
 	elif [[ "${vnum}" == "2" ]]; then
